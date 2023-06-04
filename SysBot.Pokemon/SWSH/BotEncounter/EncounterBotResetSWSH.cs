@@ -4,13 +4,13 @@ using PKHeX.Core;
 using PKHeX.Core.Searching;
 using static SysBot.Base.SwitchButton;
 using static SysBot.Base.SwitchStick;
-using static SysBot.Pokemon.PokeDataOffsets;
+using static SysBot.Pokemon.PokeDataOffsetsSWSH;
 
 namespace SysBot.Pokemon
 {
-    public sealed class EncounterBotReset : EncounterBot
+    public sealed class EncounterBotResetSWSH : EncounterBotSWSH
     {
-        public EncounterBotReset(PokeBotState cfg, PokeTradeHub<PK8> hub) : base(cfg, hub)
+        public EncounterBotResetSWSH(PokeBotState cfg, PokeTradeHub<PK8> hub) : base(cfg, hub)
         {
         }
 
