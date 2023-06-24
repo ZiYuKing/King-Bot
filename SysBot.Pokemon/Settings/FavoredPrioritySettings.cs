@@ -11,7 +11,7 @@ namespace SysBot.Pokemon
 
         // We want to allow hosts to give preferential treatment, while still providing service to users without favor.
         // These are the minimum values that we permit. These values yield a fair placement for the favored.
-        private const int _mfi = 15;
+        private const int _mfi = 2;
         private const float _bmin = 1;
         private const float _bmax = 3;
         private const float _mexp = 0.5f;
@@ -32,7 +32,7 @@ namespace SysBot.Pokemon
             set => _exponent = Math.Max(_mexp, value);
         }
 
-        [Category(Configure), Description("相乘：插入在(不喜欢的用户)*(相乘)不喜欢的用户之后。")]
+        [Category(Configure), Description("相乘：插入在(不喜欢的用户)*(相乘)不喜欢的用户之后。将其设置为0.2会在20%的用户之后添加。”")]
         public float Multiply
         {
             get => _multiply;
