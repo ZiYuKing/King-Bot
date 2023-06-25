@@ -359,7 +359,7 @@ namespace SysBot.Pokemon
             RecordUtil<PokeTradeBotSWSH>.Record($"找到连接交换对象\tNID:{trainerNID:X16}\tOT_Name:{tradePartner.TrainerName}\t平台昵称:{poke.Trainer.TrainerName}\t平台ID:{poke.Trainer.ID}\t序列号:{poke.ID}\tEC:{toSend.EncryptionConstant:X8}");
             Log($"找到连接交换对象: {tradePartner.TrainerName}-TID:{tradePartner.TID7}-SID:{tradePartner.SID7}(任天堂网络ID: {trainerNID})");
 
-            var partnerCheck = await CheckPartnerReputation(this, poke, trainerNID, tradePartner.TrainerName, AbuseSettings, PreviousUsers, PreviousUsersDistribution, EncounteredUsers, token);
+            var partnerCheck = await CheckPartnerReputation(this, poke, trainerNID, tradePartner.TrainerName, AbuseSettings, token);
             if (partnerCheck != PokeTradeResult.Success)
             {
                 await Click(A, 1_000, token).ConfigureAwait(false); // Ensures we dismiss a popup.
@@ -425,6 +425,37 @@ namespace SysBot.Pokemon
                 //  poke.SendNotification(this, $"批量:等待交换第{counting}个宝可梦{ShowdownTranslator<PK9>.GameStringsZh.Species[toSend.Species]}");
                 //  LogUtil.LogInfo($"批量:等待交换第{counting}个宝可梦{ShowdownTranslator<PK9>.GameStringsZh.Species[toSend.Species]}",nameof(PokeTradeBotSV));
                 //}
+
+                //软件外置添加模板ban人，后加
+                var entry = AbuseSettings.BanFile.List.Find(z => z.Name.Equals(toSend.OT_Name));
+                Log($"Current OT is: " + toSend.OT_Name);
+                if (entry != null)
+                {
+                    Log($"该模板ID被禁止");
+                    poke.SendNotification(this, $"该模板ID被禁止\n{entry.Comment}");
+                    AbuseSettings.BannedIDs.AddIfNew(new[] { GetReference(tradePartner.TrainerName, trainerNID, "使用禁止模板") });
+                    await Click(A, 1_000, token).ConfigureAwait(false); // Ensures we dismiss a popup.
+                    await ExitTradeToPortal(false, token).ConfigureAwait(false);
+                    return PokeTradeResult.SuspiciousActivity;
+                }
+                //内置ban人，数组内加名字
+                string[] wretchName = { "大队长", "DDZ", "Ddz", "DDz", "dDz", "dDZ", "ddz", "ddZ", "叫我大队长", "我是大队长", "忘世麒麟", "叫我大隊長", "我是大隊長", "大隊長" };
+                Log($"Current OT is: " + toSend.OT_Name);
+
+                foreach (var itemName in wretchName)
+                {
+                    if (string.Equals(toSend.OT_Name, itemName))
+                    {
+                        Log($"有狗");
+                        poke.SendNotification(this, itemName);
+                        AbuseSettings.BannedIDs.AddIfNew(new[] { GetReference(tradePartner.TrainerName, trainerNID, "大队长与狗不能交换") });
+                        await Click(A, 1_000, token).ConfigureAwait(false); // Ensures we dismiss a popup.
+                        await ExitTradeToPortal(false, token).ConfigureAwait(false);
+                        return PokeTradeResult.SuspiciousActivity;
+                    }
+                }
+
+
                 if (Hub.Config.Legality.UseTradePartnerInfo)
                 {
                     await SetBoxPkmWithSwappedIDDetailsSV(toSend, tradePartnerFullInfo, sav, poke.MODID, token);
@@ -486,6 +517,8 @@ namespace SysBot.Pokemon
 
             // Only log if we completed the trade.
             UpdateCountsAndExport(poke, received, toSend);
+            // Log for Trade Abuse tracking.
+            LogSuccessfulTrades(poke, trainerNID, tradePartner.TrainerName);
             // Sometimes they offered another mon, so store that immediately upon leaving Union Room.
             lastOffered = await SwitchConnection.ReadBytesAbsoluteAsync(TradePartnerOfferedOffset, 8, token).ConfigureAwait(false);
             await ExitTradeToPortal(false, token).ConfigureAwait(false);
@@ -521,6 +554,11 @@ namespace SysBot.Pokemon
             {
                 if (await IsUserBeingShifty(detail, token).ConfigureAwait(false))
                     return PokeTradeResult.SuspiciousActivity;
+
+                // We can fall out of the box if the user offers, then quits.
+                if (!await IsInBox(PortalOffset, token).ConfigureAwait(false))
+                    return PokeTradeResult.TrainerLeft;
+
                 await Click(A, 1_000, token).ConfigureAwait(false);
 
                 // EC is detectable at the start of the animation.
@@ -1007,6 +1045,14 @@ namespace SysBot.Pokemon
                 Log($"离开Barrier. Count: {Hub.BotSync.Barrier.ParticipantCount}");
             }
         }
+
+        //ban人，后加
+        private static RemoteControlAccess GetReference(string name, ulong id, string comment) => new()
+        {
+            ID = id,
+            Name = name,
+            Comment = $"Added automatically on {DateTime.Now:yyyy.MM.dd-hh:mm:ss} ({comment})",
+        };
 
         private string GetDodoURL(byte[] bytes)
         {

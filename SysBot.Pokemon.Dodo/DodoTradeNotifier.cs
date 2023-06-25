@@ -57,7 +57,7 @@ namespace SysBot.Pokemon.Dodo
             }
             else if (CheckWretchName(message))
             {
-                DodoBot<T>.SendChannelMessage("**大队长与狗不能进行交换，你家主是不会开机器人吗？** \n **自古忠孝两难全，队长一人成两全**", ChannelId);
+                DodoBot<T>.SendChannelMessage("**你所用的文件不允许进行交换**", ChannelId);
             }
             else if (message.StartsWith("该模板"))
             {
