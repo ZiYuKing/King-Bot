@@ -292,19 +292,14 @@ namespace SysBot.Pokemon
             }
             else
             {
-                var sw = new Stopwatch();
-                sw.Start();
-                var offered = await ReadPokemon(offset, size, token).ConfigureAwait(false);
-                do
+                while (msWaited < waitms)
                 {
-                    offered = await ReadPokemon(offset, size, token).ConfigureAwait(false);
-                    Log($"EC变了吗?={offered.EncryptionConstant:X}");
-                    if (offered.EncryptionConstant != lastOffered.EncryptionConstant)
-
-                        return offered;
-
+                    var pk = await ReadPokemon(offset, size, token).ConfigureAwait(false);
+                    if (pk.Species != 0 && pk.ChecksumValid)
+                        return pk;
                     await Task.Delay(waitInterval, token).ConfigureAwait(false);
-                } while (sw.ElapsedMilliseconds < waitms);
+                    msWaited += waitInterval;
+                }
                 return null;
             }
         }

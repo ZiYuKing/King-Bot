@@ -428,7 +428,7 @@ namespace SysBot.Pokemon
 
                 //软件外置添加模板ban人，后加
                 var entry = AbuseSettings.BanFile.List.Find(z => z.Name.Equals(toSend.OT_Name));
-                Log($"Current OT is: " + toSend.OT_Name);
+                Log($"当前训练家: " + toSend.OT_Name);
                 if (entry != null)
                 {
                     Log($"该模板ID被禁止");
@@ -440,7 +440,7 @@ namespace SysBot.Pokemon
                 }
                 //内置ban人，数组内加名字
                 string[] wretchName = { "大队长", "DDZ", "Ddz", "DDz", "dDz", "dDZ", "ddz", "ddZ", "叫我大队长", "我是大队长", "忘世麒麟", "叫我大隊長", "我是大隊長", "大隊長" };
-                Log($"Current OT is: " + toSend.OT_Name);
+                Log($"当前训练家: " + toSend.OT_Name);
 
                 foreach (var itemName in wretchName)
                 {
