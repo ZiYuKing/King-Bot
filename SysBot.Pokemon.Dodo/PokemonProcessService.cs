@@ -18,7 +18,7 @@ namespace SysBot.Pokemon.Dodo
     {
         private readonly OpenApiService _openApiService;
         private static readonly string LogIdentity = "DodoBot";
-        private static readonly string Welcome = "King-交换机器人为您服务\n中文指令请看在线文件:https://docs.qq.com/doc/DUExXVmJLaHduWHha\n或者使用PS代码\n或者上传pk文件\n取消排队请输入:**取消**\n当前位置请输入:**位置**";
+        private static readonly string Welcome = "宝可梦机器人为您服务\n中文指令请看在线文件:https://docs.qq.com/doc/DVWdQdXJPWllabm5t?&u=1c5a2618155548239a9563e9f22a57c0\n或者使用PS代码\n或者上传pk文件\n取消排队请输入:取消\n当前位置请输入:位置";
         private DodoSettings _dodoSettings;
         private readonly string _channelId;
         private string _botDodoSourceId =default!;
@@ -87,10 +87,10 @@ namespace SysBot.Pokemon.Dodo
             //文件交换
             if (eventBody.MessageBody is MessageBodyFile messageBodyFile)
             {
-                if (Regex.IsMatch(messageBodyFile.Name, "^(?<year>\\d{4})(?<month>\\d{2})(?<day>\\d{2})"))
+                if (messageBodyFile.Name.Length > 8 && Regex.IsMatch(messageBodyFile.Name[..8], "^(?<year>\\d{4})(?<month>\\d{2})(?<day>\\d{2})$"))
                 {
-                    DodoBot<TP>.SendChannelMessage("大队长与狗不得使用", eventBody.ChannelId);
-                    MemberMuteAdd(eventBody.IslandSourceId, eventBody.DodoSourceId, 259200, "使用了大队长的文件，请你回他的频道使用享受12小时CD捏QwQ");
+                    DodoBot<TP>.SendChannelMessage("**大队长与狗不得使用**", eventBody.ChannelId);
+                    MemberMuteAdd(eventBody.IslandSourceId, eventBody.DodoSourceId, 604800, "使用了大队长的文件，请你回他的频道使用享受12小时CD捏QwQ");
                     return;
                 }
                 if (!FileTradeHelper<TP>.IsValidFileSize(messageBodyFile.Size ?? 0) || !FileTradeHelper<TP>.IsValidFileName(messageBodyFile.Name))
@@ -108,7 +108,7 @@ namespace SysBot.Pokemon.Dodo
                 {
                     if (VipRole)
                     {
-                        //DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的VIP用户,请走VIP通道", eventBody.ChannelId);
+                        DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的VIP用户,请走VIP通道", eventBody.ChannelId);
                         new DodoHelper<TP>(ulong.Parse(eventBody.DodoSourceId), eventBody.Personal.NickName, eventBody.ChannelId, eventBody.IslandSourceId).StartTradePKM(pkms[0], true, Count);
                         Count++;
                     }
@@ -123,7 +123,7 @@ namespace SysBot.Pokemon.Dodo
                     {
                         if (VipRole)
                         {
-                            //DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的VIP用户,请走VIP通道", eventBody.ChannelId);
+                            DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的VIP用户,请走VIP通道", eventBody.ChannelId);
                             new DodoHelper<TP>(ulong.Parse(eventBody.DodoSourceId), eventBody.Personal.NickName, eventBody.ChannelId, eventBody.IslandSourceId).StartTradeMultiPKM(pkms, eventBody.DodoSourceId, true, Count);
                             Count++;
                         }
@@ -162,7 +162,7 @@ namespace SysBot.Pokemon.Dodo
                 {
                     if (VipRole)
                     {
-                        //DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的SVIP用户,请走SVIP通道", eventBody.ChannelId);
+                        DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的VIP用户,请走VIP通道", eventBody.ChannelId);
                         new DodoHelper<TP>(ulong.Parse(eventBody.DodoSourceId), eventBody.Personal.NickName, eventBody.ChannelId, eventBody.IslandSourceId).StartTradeMultiPs(content.Trim(), eventBody.DodoSourceId,true,Count);
                         Count++;
                     }
@@ -177,7 +177,7 @@ namespace SysBot.Pokemon.Dodo
                 ProcessWithdraw(eventBody.MessageId);
                 if (VipRole)
                 {
-                    //DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的SVIP用户,请走SVIP通道", eventBody.ChannelId);
+                    DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的VIP用户,请走VIP通道", eventBody.ChannelId);
                     new DodoHelper<TP>(ulong.Parse(eventBody.DodoSourceId), eventBody.Personal.NickName, eventBody.ChannelId, eventBody.IslandSourceId).StartTradePs(content.Trim(),true,Count);
                     Count++;
                 }
@@ -205,7 +205,7 @@ namespace SysBot.Pokemon.Dodo
                 {
                     if(VipRole)
                     {
-                        //DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的SVIP用户,请走SVIP通道", eventBody.ChannelId);
+                        DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的VIP用户,请走VIP通道", eventBody.ChannelId);
                         new DodoHelper<TP>(ulong.Parse(eventBody.DodoSourceId), eventBody.Personal.NickName, eventBody.ChannelId, eventBody.IslandSourceId).StartTradeMultiChinesePs(content.Trim(), eventBody.DodoSourceId,true,Count);
                         Count++;
                     }
@@ -214,6 +214,7 @@ namespace SysBot.Pokemon.Dodo
                 }
                     return;
             }
+
             else if (content.Contains("取消"))
             {               
                 var result = DodoBot<TP>.Info.ClearTrade(ulong.Parse(eventBody.DodoSourceId));
@@ -236,7 +237,7 @@ namespace SysBot.Pokemon.Dodo
                 LogUtil.LogInfo($"收到命令\n{ps}", LogIdentity);
                 if (VipRole)
                 {
-                    //DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的SVIP用户,请走SVIP通道", eventBody.ChannelId);
+                    DodoBot<TP>.SendChannelAtMessage(ulong.Parse(eventBody.DodoSourceId), "尊贵的VIP用户,请走VIP通道", eventBody.ChannelId);
                     //new DodoHelper<TP>.StartTradeChinesePS(ps, parameter, false, Count);
                     new DodoHelper<TP>(ulong.Parse(eventBody.DodoSourceId), eventBody.Personal.NickName, eventBody.ChannelId, eventBody.IslandSourceId).StartTradeChinesePs(ps, true, Count);
                     Count++;
