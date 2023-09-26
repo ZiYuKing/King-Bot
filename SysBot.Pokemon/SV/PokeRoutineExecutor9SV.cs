@@ -41,7 +41,8 @@ namespace SysBot.Pokemon
 
         public override async Task<PK9> ReadBoxPokemon(int box, int slot, CancellationToken token)
         {
-            // Shouldn't be reading anything but box1slot1 here. Slots are not consecutive.
+            // 这里不应该读取1B1S以外的任何内容。槽位不是连续的
+
             var jumps = Offsets.BoxStartPokemonPointer.ToArray();
             return await ReadPokemonPointer(jumps, BoxFormatSlotSize, token).ConfigureAwait(false);
         }
