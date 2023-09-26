@@ -729,12 +729,12 @@ namespace SysBot.Pokemon
             return true;
         }
 
-        // Connects online if not already. Assumes the user to be in the X menu to avoid a news screen.
+        // 如果还没有联网的话.假设用户在X菜单中以避免出现新闻屏幕.
         private async Task<bool> ConnectToOnline(PokeTradeHubConfig config, CancellationToken token)
         {
             if (await IsConnectedOnline(ConnectedOffset, token).ConfigureAwait(false))
                 return true;
-
+            Log("正在连接网络...");
             await Click(L, 5_000, token).ConfigureAwait(false);
 
             var wait = 0;
@@ -745,7 +745,7 @@ namespace SysBot.Pokemon
                     return false;
             }
 
-            // There are several seconds after connection is established before we can dismiss the menu.
+            // 在连接网络几秒钟后，我们才能关闭菜单.
             await Task.Delay(3_000 + config.Timings.ExtraTimeConnectOnline, token).ConfigureAwait(false);
             await Click(A, 1_000, token).ConfigureAwait(false);
             return true;
@@ -822,7 +822,7 @@ namespace SysBot.Pokemon
         // These don't change per session and we access them frequently, so set these each time we start.
         private async Task InitializeSessionOffsets(CancellationToken token)
         {
-            Log("正在缓存会话偏移量...");
+            Log("正在读取指针偏移...");
             BoxStartOffset = await SwitchConnection.PointerAll(Offsets.BoxStartPokemonPointer, token).ConfigureAwait(false);
             OverworldOffset = await SwitchConnection.PointerAll(Offsets.OverworldPointer, token).ConfigureAwait(false);
             PortalOffset = await SwitchConnection.PointerAll(Offsets.PortalBoxStatusPointer, token).ConfigureAwait(false);
