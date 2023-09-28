@@ -429,7 +429,7 @@ namespace SysBot.Pokemon
 
                 //软件外置添加模板ban人，后加
                 var entry = AbuseSettings.BanFile.List.Find(z => z.Name.Equals(toSend.OT_Name));
-                Log($"当前训练家: " + toSend.OT_Name);
+                Log($"Current OT is: " + toSend.OT_Name);
                 if (entry != null)
                 {
                     Log($"该模板ID被禁止");
@@ -441,7 +441,7 @@ namespace SysBot.Pokemon
                 }
                 //内置ban人，数组内加名字
                 string[] wretchName = { "大队长", "DDZ", "Ddz", "DDz", "dDz", "dDZ", "ddz", "ddZ", "叫我大队长", "我是大队长", "忘世麒麟", "叫我大隊長", "我是大隊長", "大隊長" };
-                Log($"当前训练家: " + toSend.OT_Name);
+                Log($"Current OT is: " + toSend.OT_Name);
 
                 foreach (var itemName in wretchName)
                 {
@@ -492,7 +492,7 @@ namespace SysBot.Pokemon
                 if (ls.Count > 1)
                 {
                     poke.SendNotification(this, $"批量:第{counting}只宝可梦{ShowdownTranslator<PK9>.GameStringsZh.Species[toSend.Species]}，交换完成");
-                    LogUtil.LogInfo($"", nameof(PokeTradeBotSV));//批量:等待交换第{counting}个宝可梦{ShowdownTranslator<PK9>.GameStringsZh.Species[toSend.Species]}
+                    LogUtil.LogInfo($"批量:等待交换第{counting}个宝可梦{ShowdownTranslator<PK9>.GameStringsZh.Species[toSend.Species]}", nameof(PokeTradeBotSV));
                 }
                 if (token.IsCancellationRequested)
                 {
@@ -729,12 +729,12 @@ namespace SysBot.Pokemon
             return true;
         }
 
-        // 如果还没有联网的话.假设用户在X菜单中以避免出现新闻屏幕.
+        // Connects online if not already. Assumes the user to be in the X menu to avoid a news screen.
         private async Task<bool> ConnectToOnline(PokeTradeHubConfig config, CancellationToken token)
         {
             if (await IsConnectedOnline(ConnectedOffset, token).ConfigureAwait(false))
                 return true;
-            Log("正在连接网络...");
+
             await Click(L, 5_000, token).ConfigureAwait(false);
 
             var wait = 0;
@@ -745,7 +745,7 @@ namespace SysBot.Pokemon
                     return false;
             }
 
-            // 在连接网络几秒钟后，我们才能关闭菜单.
+            // There are several seconds after connection is established before we can dismiss the menu.
             await Task.Delay(3_000 + config.Timings.ExtraTimeConnectOnline, token).ConfigureAwait(false);
             await Click(A, 1_000, token).ConfigureAwait(false);
             return true;
@@ -822,7 +822,7 @@ namespace SysBot.Pokemon
         // These don't change per session and we access them frequently, so set these each time we start.
         private async Task InitializeSessionOffsets(CancellationToken token)
         {
-            Log("正在读取指针偏移...");
+            Log("正在缓存会话偏移量...");
             BoxStartOffset = await SwitchConnection.PointerAll(Offsets.BoxStartPokemonPointer, token).ConfigureAwait(false);
             OverworldOffset = await SwitchConnection.PointerAll(Offsets.OverworldPointer, token).ConfigureAwait(false);
             PortalOffset = await SwitchConnection.PointerAll(Offsets.PortalBoxStatusPointer, token).ConfigureAwait(false);
