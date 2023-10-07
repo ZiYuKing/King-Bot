@@ -214,6 +214,11 @@ namespace SysBot.Pokemon.Dodo
                                 {
                                     new
                                     {
+                                        type = "image",
+                                        src = shinyurl
+                                    },
+                                    new
+                                    {
                                         type = "dodo-md",
                                        content = "球种:"
                                     },
@@ -231,11 +236,6 @@ namespace SysBot.Pokemon.Dodo
                                     {
                                         type = "image",
                                         src = itemurl
-                                    },
-                                    new
-                                    {
-                                        type = "image",
-                                        src = shinyurl
                                     },
                                     new
                                     {
@@ -439,7 +439,7 @@ namespace SysBot.Pokemon.Dodo
             }); 
         }
 
-        public static void SendChannelCardBatchMessage(string message, string channelId, string pokeurl, string itemurl, string ballurl, string shinyurl, string movetypeurl1, string movetypeurl2, string movetypeurl3, string movetypeurl4)
+        public static void SendChannelCardBatchMessage(string message, string channelId, string pokeurl, string itemurl, string ballurl, string shinyurl)
         {
             OpenApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyCard>
             {
