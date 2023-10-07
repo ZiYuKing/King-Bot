@@ -11,6 +11,10 @@ using PKHeX.Core;
 using System.Collections.Generic;
 using System.Threading.Channels;
 using System;
+<<<<<<< Updated upstream
+=======
+using static System.Runtime.InteropServices.JavaScript.JSType;
+>>>>>>> Stashed changes
 
 namespace SysBot.Pokemon.Dodo
 {
@@ -184,7 +188,7 @@ namespace SysBot.Pokemon.Dodo
             string mes = "";
             if (string.IsNullOrEmpty(message)) message= "None";
             string[] pmsgLines = message.Split('\n');
-            mes = pmsgLines[0]+"\n"+ pmsgLines[1] + "\n"+ pmsgLines[2] + "\n"+ pmsgLines[3] + "\n"+ pmsgLines[4] + "\n"+ pmsgLines[5] + "\n"+ pmsgLines[6] + "\n"+ pmsgLines[16] + "\n";
+            mes = pmsgLines[4] + "\n" + pmsgLines[2] + "\n" + pmsgLines[3] + "\n" + pmsgLines[8] + "\n" + pmsgLines[10] + "\n" + pmsgLines[17] + "\n" + pmsgLines[18] + "\n" + pmsgLines[16] + "\n" + pmsgLines[5] + "\n" + pmsgLines[21];
             
             string[] parts = pmsgLines[8].Split(',');
             for (int i = 0; i < parts.Length; i++)
@@ -194,6 +198,14 @@ namespace SysBot.Pokemon.Dodo
             for (int i = 0; i < part.Length; i++)
                 part[i] = part[i].Replace(":", "\n");
 
+            Random ran = new Random();
+            int n = ran.Next(0, 7);
+            string color = $"{(n == 7 ? "red" : n == 6 ? "orange" : n == 5 ? "yellow" : n == 4 ? "green" : n == 3 ? "indigo" : n == 2 ? "blue" : n == 1 ? "purple" : "black")}";
+            var Gender = $"{pmsgLines[1]}";
+            if (Gender == "-")
+            {
+                Gender = "(无性别)";
+            }
             OpenApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyCard>
             {
                 ChannelId = channelId,
@@ -203,10 +215,19 @@ namespace SysBot.Pokemon.Dodo
                     Card = new MessageModelCard
                     {
                         Type = "card",
-                        Theme = "grey",
-                        //Title = "这是你要的宝可梦：",
+                        Theme = color,//卡片颜色
+                        //Title = $"宝可梦：{pmsgLines[0] + pmsgLines[1]}",
                         Components = new List<object>
                         {
+                            new
+                            {
+                                type = "section",
+                                text = new
+                                {
+                                    type = "dodo-md",
+                                    content = $"**宝可梦：{pmsgLines[0] + Gender}**"
+                                },
+                            },
                             new
                             {
                                 type = "remark",
@@ -220,7 +241,7 @@ namespace SysBot.Pokemon.Dodo
                                     new
                                     {
                                         type = "dodo-md",
-                                       content = "球种:"
+                                       content = $"{pmsgLines[19]}"
                                     },
                                     new
                                     {
@@ -230,13 +251,30 @@ namespace SysBot.Pokemon.Dodo
                                     new
                                     {
                                         type = "dodo-md",
-                                       content = "道具:"
+                                       content = $"{pmsgLines[20]}"
                                     },
                                     new
                                     {
                                         type = "image",
                                         src = itemurl
                                     },
+                                    new
+                                    {
+                                        type = "image",
+                                        src = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png"
+                                    },
+                                    new
+                                    {
+                                        type = "image",
+                                        src = shinyurl
+                                    },
+                                }
+                            },
+                            new
+                            {
+                                type = "remark",
+                                elements = new List<object>()
+                                {
                                     new
                                     {
                                         type = "dodo-md",
@@ -268,122 +306,11 @@ namespace SysBot.Pokemon.Dodo
                                     type = "dodo-md",
                                     content = mes
                                 },
-                                align = "left",
+                                align = "right",
                                 accessory = new
                                 {
                                       type = "image",
                                       src = pokeurl
-                                }
-                            },
-                            new
-                            {
-                              type = "section",
-                                text = new
-                                {
-                                    type = "dodo-md",
-                                    content = "**个体：**"
-                                }
-                            },
-                             new
-                            {
-                              type = "section",
-                                text = new
-                                {
-                                    type = "paragraph",
-                                    cols = 6,
-                                    fields = new List<object>()
-                                    {
-                                         new
-                                        {
-                                            type = "dodo-md",
-                                           content = parts[0]
-                                        },
-                                         new
-                                        {
-                                            type = "dodo-md",
-                                           content =  parts[1]
-                                        },
-                                         new
-                                        {
-                                            type = "dodo-md",
-                                           content = parts[2]
-                                        },
-                                         new
-                                        {
-                                            type = "dodo-md",
-                                           content = parts[3]
-                                        },
-                                           new
-                                        {
-                                            type = "dodo-md",
-                                           content = parts[4]
-                                        },
-                                             new
-                                        {
-                                            type = "dodo-md",
-                                           content = parts[5]
-                                        }
-                                    }
-                                }
-                            },
-                             new
-                            {
-                              type = "section",
-                                text = new
-                                {
-                                    type = "dodo-md",
-                                    content = "**努力：**"
-                                }
-                            },
-                             new
-                            {
-                              type = "section",
-                                text = new
-                                {
-                                    type = "paragraph",
-                                    cols = 6,
-                                    fields = new List<object>()
-                                    {
-                                         new
-                                        {
-                                            type = "dodo-md",
-                                           content =  part[0]
-                                        },
-                                         new
-                                        {
-                                            type = "dodo-md",
-                                           content = part[1]
-                                        },
-                                         new
-                                        {
-                                            type = "dodo-md",
-                                           content = part[2]
-                                        },
-                                         new
-                                        {
-                                            type = "dodo-md",
-                                           content = part[3]
-                                        },
-                                           new
-                                        {
-                                            type = "dodo-md",
-                                           content = part[4]
-                                        },
-                                             new
-                                        {
-                                            type = "dodo-md",
-                                           content = part[5]
-                                        }
-                                    }
-                                }
-                            },
-                             new
-                            {
-                              type = "section",
-                                text = new
-                                {
-                                    type = "dodo-md",
-                                    content = "**技能：**"
                                 }
                             },
                               new
@@ -394,6 +321,34 @@ namespace SysBot.Pokemon.Dodo
                                     new
                                     {
                                         type = "image",
+                                        src = movetypeurl1
+                                    },
+                                    new
+                                    {
+                                        type = "dodo-md",
+                                       content = $"**{pmsgLines[12]}         **"
+                                    },
+                                    new
+                                    {
+                                        type = "image",
+                                        src = movetypeurl2
+                                    },
+                                    new
+                                    {
+                                        type = "dodo-md",
+                                       content = $"**{pmsgLines[13]}**"
+                                    },
+                                }
+                            },
+                              new
+                            {
+                                  type = "remark",
+                                elements = new List<object>()
+                                {
+                                    new
+                                    {
+                                        type = "image",
+<<<<<<< Updated upstream
                                         src = movetypeurl1
                                     },
                                     new
@@ -414,12 +369,18 @@ namespace SysBot.Pokemon.Dodo
                                     new
                                     {
                                         type = "image",
+=======
+>>>>>>> Stashed changes
                                         src = movetypeurl3
                                     },
                                     new
                                     {
                                         type = "dodo-md",
+<<<<<<< Updated upstream
                                        content = $"**{pmsgLines[14]}**"
+=======
+                                       content = $"**{pmsgLines[14]}         **"
+>>>>>>> Stashed changes
                                     },
                                     new
                                     {
@@ -439,8 +400,16 @@ namespace SysBot.Pokemon.Dodo
             }); 
         }
 
+<<<<<<< Updated upstream
         public static void SendChannelCardBatchMessage(string message, string channelId, string pokeurl, string itemurl, string ballurl, string shinyurl)
+=======
+        public static void SendChannelCardBatchMessage(string message, string channelId, string pokeurl, string itemurl, string ballurl, string shinyurl, string movetypeurl1, string movetypeurl2, string movetypeurl3, string movetypeurl4)
+>>>>>>> Stashed changes
         {
+            string[] pmsgLines = message.Split('\n');
+            Random ran = new Random();
+            int n = ran.Next(0, 7);
+            string color = $"{(n == 7 ? "red" : n == 6 ? "orange" : n == 5 ? "yellow" : n == 4 ? "green" : n == 3 ? "indigo" : n == 2 ? "blue" : n == 1 ? "purple" : "black")}";
             OpenApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyCard>
             {
                 ChannelId = channelId,
@@ -450,7 +419,7 @@ namespace SysBot.Pokemon.Dodo
                     Card = new MessageModelCard
                     {
                         Type = "card",
-                        Theme = "grey",
+                        Theme = color,
                         Components = new List<object>
                         {
                             new
@@ -458,10 +427,15 @@ namespace SysBot.Pokemon.Dodo
                                 type = "remark",
                                 elements = new List<object>()
                                 {
-                                    new
+                                    /*new
                                     {
                                         type = "dodo-md",
                                        content = "宝可梦:"
+                                    },*/
+                                    new
+                                    {
+                                        type = "image",
+                                        src = shinyurl
                                     },
                                     new
                                     {
@@ -476,17 +450,13 @@ namespace SysBot.Pokemon.Dodo
                                     new
                                     {
                                         type = "dodo-md",
-                                       content = "球种:"
+                                       content = $"**{pmsgLines[0]}**"
                                     },
-                                    new
-                                    {
-                                        type = "image",
-                                        src = ballurl
-                                    },
+                                    
                                     new
                                     {
                                         type = "dodo-md",
-                                       content = "道具:"
+                                       content = $"携带:{pmsgLines[20]}"
                                     },
                                     new
                                     {

@@ -711,13 +711,13 @@ namespace SysBot.Pokemon
             // Connect online if not already.
             if (!await ConnectToOnline(Hub.Config, token).ConfigureAwait(false))
             {
-                Log("Failed to connect to online.");
+                Log("无法连接到网络.");
                 return false; // Failed, either due to connection or softban.
             }
             // Handle the news popping up.
             if (await SwitchConnection.IsProgramRunning(LibAppletWeID, token).ConfigureAwait(false))
             {
-                Log("检测到的新闻，将在加载后关闭!");
+                Log("检测到新闻，将在加载后关闭!");
                 await Task.Delay(5_000, token).ConfigureAwait(false);
                 await Click(B, 2_000 + Hub.Config.Timings.ExtraTimeLoadPortal, token).ConfigureAwait(false);
             }
@@ -734,14 +734,14 @@ namespace SysBot.Pokemon
         {
             if (await IsConnectedOnline(ConnectedOffset, token).ConfigureAwait(false))
                 return true;
-
+            Log("正在重新连接网络...");
             await Click(L, 5_000, token).ConfigureAwait(false);
 
             var wait = 0;
             while (!await IsConnectedOnline(ConnectedOffset, token).ConfigureAwait(false))
             {
                 await Task.Delay(0_500, token).ConfigureAwait(false);
-                if (++wait > 30) // More than 15 seconds without a connection.
+                if (++wait > 45) // More than 15 seconds without a connection.
                     return false;
             }
 

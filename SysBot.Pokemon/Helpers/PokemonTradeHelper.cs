@@ -59,7 +59,11 @@ namespace SysBot.Pokemon.Helpers
         /// <param name="movetypeurl2">技能二图片地址</param>
         /// <param name="movetypeurl3">技能三图片地址</param>
         /// <param name="movetypeurl4">技能四图片地址</param>
+<<<<<<< Updated upstream
         public abstract void SendCardBatchMessage(string cardmessage, string pokeurl, string itemurl, string ballurl, string shinyurl);
+=======
+        public abstract void SendCardBatchMessage(string cardmessage, string pokeurl, string itemurl, string ballurl, string shinyurl, string movetypeurl1, string movetypeurl2, string movetypeurl3, string movetypeurl4);
+>>>>>>> Stashed changes
         /// <summary>
         /// <para>获得宝可梦交换信息的抽象方法</para>
         ///  <para>这个方法不能直接调用,必须在派生类中进行实现</para>
@@ -243,7 +247,11 @@ namespace SysBot.Pokemon.Helpers
                         if (rawPkms.Count == 1)
                             SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl, shinyurl, movetypeurl1, movetypeurl2, movetypeurl3, movetypeurl4);
                         else
+<<<<<<< Updated upstream
                             SendCardBatchMessage(cardmsg, pokeurl, itemurl, ballurl, shinyurl);
+=======
+                            SendCardBatchMessage(cardmsg, pokeurl, itemurl, ballurl, shinyurl, movetypeurl1, movetypeurl2, movetypeurl3, movetypeurl4);
+>>>>>>> Stashed changes
                     }
                     LogUtil.LogInfo($"批量第{i + 1}只:{GameInfo.GetStrings("zh").Species[rawPkms[i].Species]}", nameof(PokemonTradeHelper<T>));
                     File.WriteAllBytes(userpath + @"\" + $"第{i + 1:000}只{version}", rawPkms[i].Data);
@@ -341,7 +349,11 @@ namespace SysBot.Pokemon.Helpers
                         if (psList.Count == 1)
                             SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl, shinyurl, movetypeurl1, movetypeurl2, movetypeurl3, movetypeurl4);
                         else
+<<<<<<< Updated upstream
                             SendCardBatchMessage(cardmsg, pokeurl, itemurl, ballurl, shinyurl);
+=======
+                            SendCardBatchMessage(cardmsg, pokeurl, itemurl, ballurl, shinyurl, movetypeurl1, movetypeurl2, movetypeurl3, movetypeurl4);
+>>>>>>> Stashed changes
                     }
                     File.WriteAllBytes(userpath + @"\" + $"第{i + 1:000}只{version}", pk.Data);
                     LogUtil.LogInfo($"批量第{i + 1}只:\n{ps}", nameof(PokemonTradeHelper<T>));
@@ -576,10 +588,22 @@ namespace SysBot.Pokemon.Helpers
                 shinyurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
             }
 
+            
+            var name = pk.OT_Name;
+            var sid = pk.DisplaySID;
+            var tid = pk.DisplayTID;
+
             var pokeball = pk.Ball;
             var prop = pk.HeldItem;           
             var ability = pk.Ability;      
+<<<<<<< Updated upstream
             var natureNumber = pk.Nature;
+=======
+            var naturenum = pk.Nature;
+            var language = pk.Language;
+            var ball = ShowdownTranslator<T>.GameStringsZh.balllist[pk.Ball];
+            var heldItem = ShowdownTranslator<T>.GameStringsZh.Item[pk.HeldItem];
+>>>>>>> Stashed changes
 
             var move1 = pk.Move1;
             var move2 = pk.Move2;
@@ -593,8 +617,13 @@ namespace SysBot.Pokemon.Helpers
 
             string tera="";
             string teraoriginal = "";
+<<<<<<< Updated upstream
             teraurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png"; 
             teraoriginurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+=======
+            teraurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png"; ;
+            teraoriginurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
+>>>>>>> Stashed changes
             
             string hometracker = "";
             string scale ="";
@@ -628,8 +657,20 @@ namespace SysBot.Pokemon.Helpers
             var power2 = ShowdownTranslator<T>.GameStringsZh.Move[move2].ToString();
             var power3 = ShowdownTranslator<T>.GameStringsZh.Move[move3].ToString();
             var power4 = ShowdownTranslator<T>.GameStringsZh.Move[move4].ToString();
+<<<<<<< Updated upstream
             var abilityName = GameInfo.GetStrings("zh").Ability[ability];
             var natureName = GameInfo.GetStrings("zh").Natures[natureNumber];
+=======
+
+            //var mtype1 = ShowdownTranslator<T>.GameStringsZh.Move[type1].ToString();
+            //var mtype2 = ShowdownTranslator<T>.GameStringsZh.Move[type2].ToString();
+            //var mtype3 = ShowdownTranslator<T>.GameStringsZh.Move[type3].ToString();
+            //var mtype4 = ShowdownTranslator<T>.GameStringsZh.Move[type4].ToString();
+
+            var abilityname = GameInfo.GetStrings("zh").Ability[ability];
+            var naturename = GameInfo.GetStrings("zh").Natures[naturenum];
+
+>>>>>>> Stashed changes
             try
             {
                ballurl = BallPkImg.ballUrlMapping[pokeball];
@@ -639,7 +680,7 @@ namespace SysBot.Pokemon.Helpers
             {
                 LogUtil.LogInfo($"Ball: {pokeball} not found.", nameof(PokemonTradeHelper<T>));
                 
-               ballurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+               ballurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
             }
             try
             {
@@ -651,6 +692,65 @@ namespace SysBot.Pokemon.Helpers
                 LogUtil.LogInfo($"Item: {prop} not found.", nameof(PokemonTradeHelper<T>));
                 
                 itemurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
+<<<<<<< Updated upstream
+=======
+            }
+            try
+            {
+                shinyurl = OtherImg.ShinyUrlMapping[shyint];
+                LogUtil.LogInfo($"Shiny: {shyint} is found.", nameof(PokemonTradeHelper<T>));
+            }
+            catch (KeyNotFoundException)
+            {
+                LogUtil.LogInfo($"Shiny: {shyint} not found.", nameof(PokemonTradeHelper<T>));
+
+                shinyurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
+            }
+
+            try
+            {
+                movetypeurl1 = OtherImg.MoveTypeUrlMapping[type1];
+                LogUtil.LogInfo($"MoveType: {type1} is found.", nameof(PokemonTradeHelper<T>));
+            }
+            catch (KeyNotFoundException)
+            {
+                LogUtil.LogInfo($"MoveType: {type1} not found.", nameof(PokemonTradeHelper<T>));
+
+                movetypeurl1 = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
+            }
+            try
+            {
+                movetypeurl2 = OtherImg.MoveTypeUrlMapping[type2];
+                LogUtil.LogInfo($"Shiny: {type2} is found.", nameof(PokemonTradeHelper<T>));
+            }
+            catch (KeyNotFoundException)
+            {
+                LogUtil.LogInfo($"Shiny: {type2} not found.", nameof(PokemonTradeHelper<T>));
+
+                movetypeurl2 = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
+            }
+            try
+            {
+                movetypeurl3 = OtherImg.MoveTypeUrlMapping[type3];
+                LogUtil.LogInfo($"Shiny: {type3} is found.", nameof(PokemonTradeHelper<T>));
+            }
+            catch (KeyNotFoundException)
+            {
+                LogUtil.LogInfo($"Shiny: {type3} not found.", nameof(PokemonTradeHelper<T>));
+
+                movetypeurl3 = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
+            }
+            try
+            {
+                movetypeurl4 = OtherImg.MoveTypeUrlMapping[type4];
+                LogUtil.LogInfo($"Shiny: {type4} is found.", nameof(PokemonTradeHelper<T>));
+            }
+            catch (KeyNotFoundException)
+            {
+                LogUtil.LogInfo($"Shiny: {type4} not found.", nameof(PokemonTradeHelper<T>));
+
+                movetypeurl4 = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
+>>>>>>> Stashed changes
             }
 
             MoveTypeImg moveTypeImg = new MoveTypeImg();
@@ -660,7 +760,7 @@ namespace SysBot.Pokemon.Helpers
             movetypeurl4 = moveTypeImg.MoveTypeToChinese(type4);
 
             // pokeurl = PKImgURL(speciesint,pkform,shyint);
-            pokeurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+            pokeurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
            
             var key = (Species: speciesInt, Form: pkForm, Shiny: shinyInt);
           //  LogUtil.LogInfo($"KEY:{key}", nameof(PokemonTradeHelper<T>));
@@ -750,7 +850,7 @@ namespace SysBot.Pokemon.Helpers
                 {
                   //  LogUtil.LogInfo($"Tera: {tera} not found.", nameof(PokemonTradeHelper<T>));
 
-                    teraurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+                    teraurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
                 }
                 try
                 {
@@ -761,7 +861,7 @@ namespace SysBot.Pokemon.Helpers
                 {
                     //  LogUtil.LogInfo($"Tera Original: {teraoriginal} not found.", nameof(PokemonTradeHelper<T>));
 
-                    teraoriginurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+                    teraoriginurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
                 }
 
             }
@@ -770,10 +870,12 @@ namespace SysBot.Pokemon.Helpers
                pokeurl= "https://img.imdodo.com/openapitest/upload/cdn/E714716E359055F4AD802BD414A97AF2_1696061162810.png";
             }
 
+
         
             //LogUtil.LogInfo($"itemimage:{itemurl}", nameof(PokemonTradeHelper<T>));
             //LogUtil.LogInfo($"pkimage:{pokeurl}", nameof(PokemonTradeHelper<T>));
             //LogUtil.LogInfo($"ballimage:{ballurl}", nameof(PokemonTradeHelper<T>));
+<<<<<<< Updated upstream
             pmsg = $"**昵称：{GameInfo.GetStrings("zh").Species[species]}**\n" +
                 $"性别：{GameInfo.GenderSymbolUnicode[pk.Gender]}\n" +
                 $"性格:{natureName}\n" +
@@ -781,16 +883,37 @@ namespace SysBot.Pokemon.Helpers
                 $"等级:{level}\n" +
                 $"大小:{scale}\n" +
                 $"Home追踪:{hometracker}\n" +
+=======
+            pmsg = $"{GameInfo.GetStrings("zh").Species[species]}\n" +//昵称
+                $"{GameInfo.GenderSymbolUnicode[pk.Gender]}\n" +//性别
+                $"性格：{naturename}\n" +
+                $"特性：{abilityname}\n" +
+                $"等级：{level}\n" +
+                $"大小：{scale}\n" +
+                $"Home追踪：{hometracker}\n" +
+>>>>>>> Stashed changes
                 $"个体:\n" +
-                $"HP :{hp},Atk:{atk},Def:{def},Spa:{spa},Spd:{spd},Spe:{spe}\n " +
+                $"个体值：{hp}/{atk}/{def}/{spa}/{spd}/{spe}\n" +
                 $"努力:\n" +
+<<<<<<< Updated upstream
                 $"HP :{hp_ev},Atk:{atk_ev},Def:{def_ev},Spa:{spa_ev},Spd:{spd_ev},Spe:{spe_ev}\n" +
+=======
+                $"努力值：{hpe}/{atke}/{defe}/{spae}/{spde}/{spee}\n" +
+>>>>>>> Stashed changes
                 $"技能\n" +
                 $"{power1}\n" +
                 $"{power2}\n" +
                 $"{power3}\n" +
                 $"{power4}\n" +
+<<<<<<< Updated upstream
                 $"来源版本:{chineseVersion}";
+=======
+                $"来源版本：{chineseversion}\n" +
+                $"训练家：{name}({sid}-{tid})\n" +
+                $"语言：{(language == 10 ? "CHT(繁體中文)" : language == 9 ? "CHS(简体中文)" : language == 8 ? "KOR(한국어)" : language == 7 ? "ESP(Español)" : language == 5 ? "GER(Deutsch)" : language == 4 ? "ITA(Italiano)" : language == 3 ? "FRE(Français)" : language == 2 ? "ENG(English)" : language == 1 ? "JPN(日本語)" : "未知")}\n" +
+                $"{ball}\n" + 
+                $"{heldItem}\n";
+>>>>>>> Stashed changes
 
           //  LogUtil.LogInfo($"cardmsg:{pmsg}", nameof(PokemonTradeHelper<T>));
             return pmsg;

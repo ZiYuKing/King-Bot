@@ -118,10 +118,16 @@ namespace SysBot.Pokemon.Dodo
                 $"正在初始化与{info.Trainer.TrainerName}(ID: {info.ID})的交易{receive}";
             msg += $" 交易密码为: {info.Code:0000 0000}";
             LogUtil.LogText(msg);
-            var text = $"\n正在派送:**{ShowdownTranslator<T>.GameStringsZh.Species[Data.Species]}**\n交换密码:**见私信**";
+            var pkname = $"{ShowdownTranslator<T>.GameStringsZh.Species[Data.Species]}";
+            if (pkname == "---")
+            {
+                pkname = "批量宝可梦";
+            }
+            var text = $"\n正在派送:**{pkname}**\n交换密码:**见私信**";
             DodoBot<T>.SendChannelAtMessage(info.Trainer.ID, text, ChannelId);
             DodoBot<T>.SendPersonalMessage(info.Trainer.ID.ToString(),
-                $"正在派送:{ShowdownTranslator<T>.GameStringsZh.Species[Data.Species]}\n交换密码: {info.Code:0000 0000}\n我的游戏ID为{routine.InGameName}", IslandId);
+            
+            $"正在派送: {pkname}\n交换密码: {info.Code:0000 0000}\n我的游戏ID: {routine.InGameName}", IslandId);
         }
 
         public void TradeSearching(PokeRoutineExecutor<T> routine, PokeTradeDetail<T> info)
