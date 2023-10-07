@@ -41,7 +41,12 @@ namespace SysBot.Pokemon.Helpers
         /// <param name="ballurl">精灵球种图片地址</param>
         /// <param name="teraurl">现钛晶图片地址</param>
         /// <param name="teraoriginalurl">原太晶图片地址</param>
-        public abstract void SendCardMessage(string cardmessage, string pokeurl, string itemurl, string ballurl, string teraurl, string teraoriginalurl);
+        /// <param name="shinyurl">闪光图片地址</param>
+        /// <param name="movetypeurl1">技能一图片地址</param>
+        /// <param name="movetypeurl2">技能二图片地址</param>
+        /// <param name="movetypeurl3">技能三图片地址</param>
+        /// <param name="movetypeurl4">技能四图片地址</param>
+        public abstract void SendCardMessage(string cardmessage, string pokeurl, string itemurl, string ballurl, string teraurl, string teraoriginalurl, string shinyurl, string movetypeurl1, string movetypeurl2, string movetypeurl3, string movetypeurl4);
         /// <summary>
         /// 发送卡片消息的抽象方法
         /// </summary>
@@ -49,7 +54,12 @@ namespace SysBot.Pokemon.Helpers
         /// <param name="pokeurl">宝可梦图片地址</param>
         /// <param name="itemurl">道具图片地址</param>
         /// <param name="ballurl">精灵球种图片地址</param>
-        public abstract void SendCardBatchMessage(string cardmessage, string pokeurl, string itemurl, string ballurl);
+        /// <param name="shinyurl">闪光图片地址</param>
+        /// <param name="movetypeurl1">技能一图片地址</param>
+        /// <param name="movetypeurl2">技能二图片地址</param>
+        /// <param name="movetypeurl3">技能三图片地址</param>
+        /// <param name="movetypeurl4">技能四图片地址</param>
+        public abstract void SendCardBatchMessage(string cardmessage, string pokeurl, string itemurl, string ballurl, string shinyurl);
         /// <summary>
         /// <para>获得宝可梦交换信息的抽象方法</para>
         ///  <para>这个方法不能直接调用,必须在派生类中进行实现</para>
@@ -108,8 +118,8 @@ namespace SysBot.Pokemon.Helpers
             var cardflag = queueInfo.Hub.Config.Dodo.CardTradeMessage;
             if (cardflag)
             {
-                var cardmsg = CardInfo(pkm, out string pokeurl, out string itemurl, out string ballurl, out string teraurl, out string teraoriginurl);
-                SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl);
+                var cardmsg = CardInfo(pkm, out string pokeurl, out string itemurl, out string ballurl, out string teraurl, out string teraoriginurl, out string shinyurl, out string movetypeurl1, out string movetypeurl2, out string movetypeurl3, out string movetypeurl4);
+                SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl, shinyurl, movetypeurl1, movetypeurl2, movetypeurl3, movetypeurl4);
             }
             var code = queueInfo.GetRandomTradeCode();
             var __ = AddToTradeQueue(pkm, code, PokeRoutineType.LinkTrade, out string message, modid, "", vip, priority);
@@ -142,8 +152,8 @@ namespace SysBot.Pokemon.Helpers
             var cardflag = queueInfo.Hub.Config.Dodo.CardTradeMessage;
             if (cardflag)
             {
-                var cardmsg = CardInfo(pkm, out string pokeurl, out string itemurl, out string ballurl, out string teraurl, out string teraoriginurl);
-                SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl);
+                var cardmsg = CardInfo(pkm, out string pokeurl, out string itemurl, out string ballurl, out string teraurl, out string teraoriginurl, out string shinyurl, out string movetypeurl1, out string movetypeurl2, out string movetypeurl3, out string movetypeurl4);
+                SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl, shinyurl, movetypeurl1, movetypeurl2, movetypeurl3, movetypeurl4);
             }
             var code = queueInfo.GetRandomTradeCode();
             var __ = AddToTradeQueue(pkm, code, PokeRoutineType.LinkTrade, out string message, false, "", vip, priority);
@@ -228,12 +238,12 @@ namespace SysBot.Pokemon.Helpers
                     var cardflag = queueInfo.Hub.Config.Dodo.CardTradeMessage;
                     if (cardflag)
                     {
-                        var cardmsg = CardInfo(rawPkms[i], out string pokeurl, out string itemurl, out string ballurl, out string teraurl, out string teraoriginurl);
+                        var cardmsg = CardInfo(rawPkms[i], out string pokeurl, out string itemurl, out string ballurl, out string teraurl, out string teraoriginurl, out string shinyurl, out string movetypeurl1, out string movetypeurl2, out string movetypeurl3, out string movetypeurl4);
                         //SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl);
                         if (rawPkms.Count == 1)
-                            SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl);
+                            SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl, shinyurl, movetypeurl1, movetypeurl2, movetypeurl3, movetypeurl4);
                         else
-                            SendCardBatchMessage(cardmsg, pokeurl, itemurl, ballurl);
+                            SendCardBatchMessage(cardmsg, pokeurl, itemurl, ballurl, shinyurl);
                     }
                     LogUtil.LogInfo($"批量第{i + 1}只:{GameInfo.GetStrings("zh").Species[rawPkms[i].Species]}", nameof(PokemonTradeHelper<T>));
                     File.WriteAllBytes(userpath + @"\" + $"第{i + 1:000}只{version}", rawPkms[i].Data);
@@ -326,12 +336,12 @@ namespace SysBot.Pokemon.Helpers
                     var cardflag = queueInfo.Hub.Config.Dodo.CardTradeMessage;
                     if (cardflag)
                     {
-                        var cardmsg = CardInfo(pk, out string pokeurl, out string itemurl, out string ballurl, out string teraurl, out string teraoriginurl);
+                        var cardmsg = CardInfo(pk, out string pokeurl, out string itemurl, out string ballurl, out string teraurl, out string teraoriginurl, out string shinyurl, out string movetypeurl1, out string movetypeurl2, out string movetypeurl3, out string movetypeurl4);
                         //SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl);
                         if (psList.Count == 1)
-                            SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl);
+                            SendCardMessage(cardmsg, pokeurl, itemurl, ballurl, teraurl, teraoriginurl, shinyurl, movetypeurl1, movetypeurl2, movetypeurl3, movetypeurl4);
                         else
-                            SendCardBatchMessage(cardmsg, pokeurl, itemurl, ballurl);
+                            SendCardBatchMessage(cardmsg, pokeurl, itemurl, ballurl, shinyurl);
                     }
                     File.WriteAllBytes(userpath + @"\" + $"第{i + 1:000}只{version}", pk.Data);
                     LogUtil.LogInfo($"批量第{i + 1}只:\n{ps}", nameof(PokemonTradeHelper<T>));
@@ -545,32 +555,45 @@ namespace SysBot.Pokemon.Helpers
         }
 
         #region Card Information
-        private string CardInfo(T pk, out string pokeurl, out string itemurl, out string ballurl, out string teraurl,out string teraoriginurl)
+        private string CardInfo(T pk, out string pokeurl, out string itemurl, out string ballurl, out string teraurl,out string teraoriginurl, out string shinyurl, out string movetypeurl1, out string movetypeurl2, out string movetypeurl3, out string movetypeurl4)
         {
             string pmsg;
             
             var form = pk.Form;
-            int pkform = pk.Form;
+            int pkForm = pk.Form;
 
             var species = pk.Species;
-            int speciesint = pk.Species;
+            int speciesInt = pk.Species;
 
             var shiny = pk.IsShiny == true ? "是" : "否";
-            int shyint = pk.IsShiny == true ? 1 : 0;
+            int shinyInt = pk.IsShiny == true ? 1 : 0;
+            if (shinyInt == 1)
+            {
+                shinyurl = "https://img.imdodo.com/openapitest/upload/cdn/39240F8E02D5DB05A6686F2E34BACF23_1696445706494.png";
+            }
+            else
+            {
+                shinyurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
+            }
 
             var pokeball = pk.Ball;
             var prop = pk.HeldItem;           
             var ability = pk.Ability;      
-            var naturenum = pk.Nature;
+            var natureNumber = pk.Nature;
 
             var move1 = pk.Move1;
             var move2 = pk.Move2;
             var move3 = pk.Move3;
             var move4 = pk.Move4;
-           
+
+            var type1 = MoveInfo.GetType(move1, pk.Context);
+            var type2 = MoveInfo.GetType(move2, pk.Context);
+            var type3 = MoveInfo.GetType(move3, pk.Context);
+            var type4 = MoveInfo.GetType(move4, pk.Context);
+
             string tera="";
             string teraoriginal = "";
-            teraurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png"; ;
+            teraurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png"; 
             teraoriginurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
             
             string hometracker = "";
@@ -583,30 +606,30 @@ namespace SysBot.Pokemon.Helpers
             var spd = pk.IV_SPD;
             var spe = pk.IV_SPE;
            
-            var hpe = pk.EV_HP;
-            var atke = pk.EV_ATK;
-            var defe = pk.EV_DEF;
-            var spae = pk.EV_SPA;
-            var spde = pk.EV_SPD;
-            var spee = pk.EV_SPE; 
+            var hp_ev = pk.EV_HP;
+            var atk_ev = pk.EV_ATK;
+            var def_ev = pk.EV_DEF;
+            var spa_ev = pk.EV_SPA;
+            var spd_ev = pk.EV_SPD;
+            var spe_ev = pk.EV_SPE; 
             
             var gendar = pk.Gender;
             var egg = pk.IsEgg;
 
             var level = pk.CurrentLevel;
             var version = (GameVersion)pk.Version;
-            var vername = GameInfo.GetVersionName(version);
+            var versionName = GameInfo.GetVersionName(version);
 
-            Version versionmapper = new Version();
-            var chineseversion = versionmapper.MapToChinese(vername);
+            Version versionMapper = new Version();
+            var chineseVersion = versionMapper.MapToChinese(versionName);
 
 
             var power1 = ShowdownTranslator<T>.GameStringsZh.Move[move1].ToString();
             var power2 = ShowdownTranslator<T>.GameStringsZh.Move[move2].ToString();
             var power3 = ShowdownTranslator<T>.GameStringsZh.Move[move3].ToString();
             var power4 = ShowdownTranslator<T>.GameStringsZh.Move[move4].ToString();
-            var abilityname = GameInfo.GetStrings("zh").Ability[ability];
-            var naturename = GameInfo.GetStrings("zh").Natures[naturenum];
+            var abilityName = GameInfo.GetStrings("zh").Ability[ability];
+            var natureName = GameInfo.GetStrings("zh").Natures[natureNumber];
             try
             {
                ballurl = BallPkImg.ballUrlMapping[pokeball];
@@ -627,13 +650,19 @@ namespace SysBot.Pokemon.Helpers
             {
                 LogUtil.LogInfo($"Item: {prop} not found.", nameof(PokemonTradeHelper<T>));
                 
-                itemurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+                itemurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
             }
+
+            MoveTypeImg moveTypeImg = new MoveTypeImg();
+            movetypeurl1 = moveTypeImg.MoveTypeToChinese(type1);
+            movetypeurl2 = moveTypeImg.MoveTypeToChinese(type2);
+            movetypeurl3 = moveTypeImg.MoveTypeToChinese(type3);
+            movetypeurl4 = moveTypeImg.MoveTypeToChinese(type4);
 
             // pokeurl = PKImgURL(speciesint,pkform,shyint);
             pokeurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
            
-            var key = (Species: speciesint, Form: pkform, Shiny: shyint);
+            var key = (Species: speciesInt, Form: pkForm, Shiny: shinyInt);
           //  LogUtil.LogInfo($"KEY:{key}", nameof(PokemonTradeHelper<T>));
             string txtFilePath = "";
             txtFilePath = queueInfo.Hub.Config.Folder.CardImagePath;
@@ -655,7 +684,7 @@ namespace SysBot.Pokemon.Helpers
                         string url = match.Groups[4].Value;
                         //var txtKey = (Species: s, Form: f, Shiny: i);
                         //if (txtKey.Equals(key))
-                        if (s == speciesint && f == pkform && i == shyint)
+                        if (s == speciesInt && f == pkForm && i == shinyInt)
                         {
                             pokeurl = url;
                             LogUtil.LogInfo($"KEY:{key}", nameof(PokemonTradeHelper<T>));
@@ -668,7 +697,7 @@ namespace SysBot.Pokemon.Helpers
 
             if (typeof(T) == typeof(PK8))
             {               
-                PK8 pks = FileTradeHelper<T>.GetPokemon(pk.Data) as PK8;
+                PK8? pks = FileTradeHelper<T>.GetPokemon(pk.Data) as PK8;
                 scale = "无";
                 if(pks.Tracker == 0)
                 {
@@ -679,7 +708,7 @@ namespace SysBot.Pokemon.Helpers
             }
             if (typeof(T) == typeof(PA8))
             {
-                PA8 pks = FileTradeHelper<T>.GetPokemon(pk.Data) as PA8;
+                PA8? pks = FileTradeHelper<T>.GetPokemon(pk.Data) as PA8;
                 scale = pks.Scale.ToString();
                 if (pks.Tracker == 0)
                 {
@@ -690,7 +719,7 @@ namespace SysBot.Pokemon.Helpers
             }
             if (typeof(T) == typeof(PB8))
             {
-                PB8 pks = FileTradeHelper<T>.GetPokemon(pk.Data) as PB8;
+                PB8? pks = FileTradeHelper<T>.GetPokemon(pk.Data) as PB8;
                 scale = "无";
                 if (pks.Tracker == 0)
                 {
@@ -701,7 +730,7 @@ namespace SysBot.Pokemon.Helpers
             }
             if (typeof(T) == typeof(PK9))
             {
-                PK9 pks = FileTradeHelper<T>.GetPokemon(pk.Data) as PK9;
+                PK9? pks = FileTradeHelper<T>.GetPokemon(pk.Data) as PK9;
                 tera=pks.TeraType.ToString();
                 teraoriginal = pks.TeraTypeOriginal.ToString();               
                 scale = pks.Scale.ToString();
@@ -747,21 +776,21 @@ namespace SysBot.Pokemon.Helpers
             //LogUtil.LogInfo($"ballimage:{ballurl}", nameof(PokemonTradeHelper<T>));
             pmsg = $"**昵称：{GameInfo.GetStrings("zh").Species[species]}**\n" +
                 $"性别：{GameInfo.GenderSymbolUnicode[pk.Gender]}\n" +
-                $"性格:{naturename}\n" +
-                $"特性:{abilityname}\n" +
+                $"性格:{natureName}\n" +
+                $"特性:{abilityName}\n" +
                 $"等级:{level}\n" +
                 $"大小:{scale}\n" +
                 $"Home追踪:{hometracker}\n" +
                 $"个体:\n" +
                 $"HP :{hp},Atk:{atk},Def:{def},Spa:{spa},Spd:{spd},Spe:{spe}\n " +
                 $"努力:\n" +
-                $"HP :{hpe},Atk:{atke},Def:{defe},Spa:{spae},Spd:{spde},Spe:{spee}\n" +
+                $"HP :{hp_ev},Atk:{atk_ev},Def:{def_ev},Spa:{spa_ev},Spd:{spd_ev},Spe:{spe_ev}\n" +
                 $"技能\n" +
-                $"技能1:{power1}\n" +
-                $"技能2:{power2}\n" +
-                $"技能3:{power3}\n" +
-                $"技能4:{power4}\n" +
-                $"来源版本:{chineseversion}";
+                $"{power1}\n" +
+                $"{power2}\n" +
+                $"{power3}\n" +
+                $"{power4}\n" +
+                $"来源版本:{chineseVersion}";
 
           //  LogUtil.LogInfo($"cardmsg:{pmsg}", nameof(PokemonTradeHelper<T>));
             return pmsg;
