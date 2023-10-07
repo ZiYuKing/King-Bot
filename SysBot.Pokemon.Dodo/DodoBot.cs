@@ -11,10 +11,6 @@ using PKHeX.Core;
 using System.Collections.Generic;
 using System.Threading.Channels;
 using System;
-<<<<<<< Updated upstream
-=======
-using static System.Runtime.InteropServices.JavaScript.JSType;
->>>>>>> Stashed changes
 
 namespace SysBot.Pokemon.Dodo
 {
@@ -235,11 +231,6 @@ namespace SysBot.Pokemon.Dodo
                                 {
                                     new
                                     {
-                                        type = "image",
-                                        src = shinyurl
-                                    },
-                                    new
-                                    {
                                         type = "dodo-md",
                                        content = $"{pmsgLines[19]}"
                                     },
@@ -348,39 +339,12 @@ namespace SysBot.Pokemon.Dodo
                                     new
                                     {
                                         type = "image",
-<<<<<<< Updated upstream
-                                        src = movetypeurl1
-                                    },
-                                    new
-                                    {
-                                        type = "dodo-md",
-                                       content = $"**{pmsgLines[12]}**"
-                                    },
-                                    new
-                                    {
-                                        type = "image",
-                                        src = movetypeurl2
-                                    },
-                                    new
-                                    {
-                                        type = "dodo-md",
-                                       content = $"**{pmsgLines[13]}**"
-                                    },
-                                    new
-                                    {
-                                        type = "image",
-=======
->>>>>>> Stashed changes
                                         src = movetypeurl3
                                     },
                                     new
                                     {
                                         type = "dodo-md",
-<<<<<<< Updated upstream
-                                       content = $"**{pmsgLines[14]}**"
-=======
                                        content = $"**{pmsgLines[14]}         **"
->>>>>>> Stashed changes
                                     },
                                     new
                                     {
@@ -400,11 +364,7 @@ namespace SysBot.Pokemon.Dodo
             }); 
         }
 
-<<<<<<< Updated upstream
         public static void SendChannelCardBatchMessage(string message, string channelId, string pokeurl, string itemurl, string ballurl, string shinyurl)
-=======
-        public static void SendChannelCardBatchMessage(string message, string channelId, string pokeurl, string itemurl, string ballurl, string shinyurl, string movetypeurl1, string movetypeurl2, string movetypeurl3, string movetypeurl4)
->>>>>>> Stashed changes
         {
             string[] pmsgLines = message.Split('\n');
             Random ran = new Random();
@@ -441,11 +401,6 @@ namespace SysBot.Pokemon.Dodo
                                     {
                                         type = "image",
                                         src = pokeurl
-                                    },
-                                    new
-                                    {
-                                        type = "image",
-                                        src = shinyurl
                                     },
                                     new
                                     {
