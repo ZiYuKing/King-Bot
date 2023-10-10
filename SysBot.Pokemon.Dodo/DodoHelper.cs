@@ -30,9 +30,14 @@ namespace SysBot.Pokemon.Dodo
             return new DodoTradeNotifier<T>(pkm, userInfo, code, userInfo.ID.ToString(), channelId, islandSourceId);
         }
 
-        public override void SendMessage(string message)
+        public override void SendAtMessage(string message)
         {
             DodoBot<T>.SendChannelAtMessage(userInfo.ID, message, channelId);
+        }
+
+        public override void SendMessage(string message)
+        {
+            DodoBot<T>.SendChannelMessage(message, channelId);
         }
 
         public override void SendCardMessage(string message, string pokeurl,string itemurl, string ballurl,string teraurl, string teraoriginalurl, string shinyurl, string movetypeurl1, string movetypeurl2, string movetypeurl3, string movetypeurl4)

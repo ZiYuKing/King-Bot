@@ -43,7 +43,7 @@ namespace SysBot.Pokemon.QQ
         public void SendNotification(PokeRoutineExecutor<T> routine, PokeTradeDetail<T> info, string message)
         {
             LogUtil.LogText(message);
-            //SendMessage($"@{info.Trainer.TrainerName}: {message}");
+            //SendAtMessage($"@{info.Trainer.TrainerName}: {message}");
         }
         /// <summary>
         /// 详情记录
@@ -51,7 +51,7 @@ namespace SysBot.Pokemon.QQ
         public void SendNotification(PokeRoutineExecutor<T> routine, string message)
         {
             LogUtil.LogText(message);
-            //SendMessage($"@{info.Trainer.TrainerName}: {message}");
+            //SendAtMessage($"@{info.Trainer.TrainerName}: {message}");
         }
 
         /// <summary>

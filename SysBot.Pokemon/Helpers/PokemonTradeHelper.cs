@@ -19,8 +19,8 @@ namespace SysBot.Pokemon.Helpers
     /// <summary>
     /// <para>帮助机器人交换宝可梦的工具类</para>
     /// <para>这是一个抽象类</para>
-    /// <para>本类需要实现SendMessage()，同时也要实现一个多参数的构造函数</para>
-    /// <para>参数应该包括该类型机器人发送消息的相关信息，以便SendMessage()使用</para>
+    /// <para>本类需要实现SendAtMessage()，同时也要实现一个多参数的构造函数</para>
+    /// <para>参数应该包括该类型机器人发送消息的相关信息，以便SendAtMessage()使用</para>
     /// <para>注意在实现抽象类的构造方法里一定要调用SetPokeTradeTrainerInfo()和SetTradeQueueInfo()</para>
     /// </summary>
     public abstract class PokemonTradeHelper<T> where T : PKM, new()
@@ -30,6 +30,8 @@ namespace SysBot.Pokemon.Helpers
         ///  <para>这个方法不能直接调用,必须在派生类中进行实现</para>
         /// </summary>
         /// <param name="message">发送的消息内容</param>
+        public abstract void SendAtMessage(string message);
+
         public abstract void SendMessage(string message);
 
         /// <summary>
@@ -198,7 +200,7 @@ namespace SysBot.Pokemon.Helpers
             GetPKMsFromPsList(chinesePsList, userpath, true, out int invalidCount, out string pokeMessage);
 
             if (pokeMessage != "")
-                SendMessage(pokeMessage);
+                SendAtMessage(pokeMessage);
 
             if (!JudgeInvalidCount(invalidCount, chinesePsList.Count)) return;
 
@@ -352,7 +354,7 @@ namespace SysBot.Pokemon.Helpers
 
                     if (pokeMessage.Length > 1000)
                     {
-                        SendMessage(pokeMessage);
+                        SendAtMessage(pokeMessage);
                         pokeMessage = "";
                     }
                 }
@@ -511,7 +513,7 @@ namespace SysBot.Pokemon.Helpers
         {
             var code = queueInfo.GetRandomTradeCode();
             var __ = AddToTradeQueue(pkm, code, PokeRoutineType.LinkTrade, out string message, modid, path);
-            SendMessage(message);
+            SendAtMessage(message);
         }
         private bool AddToTradeQueue(T pk, int code,
             PokeRoutineType type, out string msg, bool ModId, string path = "", bool vip = false, uint p = uint.MaxValue, bool deletFile = false)

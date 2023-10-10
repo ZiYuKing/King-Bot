@@ -26,9 +26,14 @@ namespace SysBot.Pokemon.QQ
             return new MiraiQQTradeNotifier<T>(pkm, userInfo, code, userInfo.TrainerName, GroupId);
         }
 
-        public override void SendMessage(string message)
+        public override void SendAtMessage(string message)
         {
             MiraiQQBot<T>.SendGroupMessage(new MessageChainBuilder().At(userInfo.ID.ToString()).Plain(message).Build());
+        }
+
+        public override void SendMessage(string message)
+        {
+            MiraiQQBot<T>.SendGroupMessage(new MessageChainBuilder().Plain(message).Build());
         }
 
         #region
