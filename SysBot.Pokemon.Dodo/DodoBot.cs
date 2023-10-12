@@ -371,9 +371,8 @@ namespace SysBot.Pokemon.Dodo
         public static void SendChannelCardBatchMessage(string message, string channelId, string pokeurl, string itemurl, string ballurl, string shinyurl)
         {
             string[] pmsgLines = message.Split('\n');
-            Random ran = new Random();
-            int n = ran.Next(0, 7);
-            string color = $"{(n == 7 ? "red" : n == 6 ? "orange" : n == 5 ? "yellow" : n == 4 ? "green" : n == 3 ? "indigo" : n == 2 ? "blue" : n == 1 ? "purple" : "black")}";
+            string[] colors = { "black", "purple", "blue", "indigo", "green", "yellow", "orange", "red" };
+            string color = colors[new Random().Next(0, 8)];
             OpenApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyCard>
             {
                 ChannelId = channelId,

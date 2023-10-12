@@ -780,8 +780,22 @@ namespace SysBot.Pokemon.Helpers
                pokeurl= "https://img.imdodo.com/openapitest/upload/cdn/E714716E359055F4AD802BD414A97AF2_1696061162810.png";
             }
 
+            string[] languages = 
+            {
+            "未知",
+            "JPN(日本語)",
+            "ENG(English)",
+            "FRE(Français)",
+            "ITA(Italiano)",
+            "GER(Deutsch)",
+            "ESP(Español)",
+            "KOR(한국어)",
+            "CHS(简体中文)",
+            "CHT(繁體中文)"
+            };
 
-        
+            string languageString = language >= 0 && language < languages.Length ? languages[language] : "未知";
+
             //LogUtil.LogInfo($"itemimage:{itemurl}", nameof(PokemonTradeHelper<T>));
             //LogUtil.LogInfo($"pkimage:{pokeurl}", nameof(PokemonTradeHelper<T>));
             //LogUtil.LogInfo($"ballimage:{ballurl}", nameof(PokemonTradeHelper<T>));
@@ -803,7 +817,8 @@ namespace SysBot.Pokemon.Helpers
                 $"{power4}\n" +
                 $"来源版本：{chineseVersion}\n" +
                 $"训练家：{name}({sid}-{tid})\n" +
-                $"语言：{(language == 10 ? "CHT(繁體中文)" : language == 9 ? "CHS(简体中文)" : language == 8 ? "KOR(한국어)" : language == 7 ? "ESP(Español)" : language == 5 ? "GER(Deutsch)" : language == 4 ? "ITA(Italiano)" : language == 3 ? "FRE(Français)" : language == 2 ? "ENG(English)" : language == 1 ? "JPN(日本語)" : "未知")}\n" +
+                //$"语言：{(language == 10 ? "CHT(繁體中文)" : language == 9 ? "CHS(简体中文)" : language == 8 ? "KOR(한국어)" : language == 7 ? "ESP(Español)" : language == 5 ? "GER(Deutsch)" : language == 4 ? "ITA(Italiano)" : language == 3 ? "FRE(Français)" : language == 2 ? "ENG(English)" : language == 1 ? "JPN(日本語)" : "未知")}\n" +
+                $"语言：{languageString}" +
                 $"{ball}\n" + 
                 $"{heldItem}\n";
 
