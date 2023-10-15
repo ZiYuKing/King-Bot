@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace SysBot.Pokemon.Helpers
         /// </summary>
         /// <param name="message">发送的消息内容</param>
         public abstract void SendMessage(string message);
+        public abstract void SendAtMessage(string message);
 
         /// <summary>
         /// 发送卡片消息的抽象方法
@@ -595,10 +597,17 @@ namespace SysBot.Pokemon.Helpers
                 shinyurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
             }
 
+            var name = pk.OT_Name;
+            var sid = pk.DisplaySID;
+            var tid = pk.DisplayTID;
+
             var pokeball = pk.Ball;
-            var prop = pk.HeldItem;           
+            var ball = ShowdownTranslator<T>.GameStringsZh.balllist[pk.Ball];
+            var prop = pk.HeldItem;
+            var heldItem = ShowdownTranslator<T>.GameStringsZh.Item[pk.HeldItem];
             var ability = pk.Ability;      
             var natureNumber = pk.Nature;
+            var language = pk.Language;
 
             var move1 = pk.Move1;
             var move2 = pk.Move2;
@@ -783,28 +792,46 @@ namespace SysBot.Pokemon.Helpers
                 }
 
             }
+            string[] languages =
+            {
+            "未知",
+            "JPN(日本語)",
+            "ENG(English)",
+            "FRE(Français)",
+            "ITA(Italiano)",
+            "GER(Deutsch)",
+            "未知",
+            "ESP(Español)",
+            "KOR(한국어)",
+            "CHS(简体中文)",
+            "CHT(繁體中文)"
+            };
+
+            string languageZh = language >= 0 && language < languages.Length ? languages[language] : "未知";
             //LogUtil.LogInfo($"itemimage:{itemurl}", nameof(PokemonTradeHelper<T>));
             //LogUtil.LogInfo($"pkimage:{pokeurl}", nameof(PokemonTradeHelper<T>));
             //LogUtil.LogInfo($"ballimage:{ballurl}", nameof(PokemonTradeHelper<T>));
-            pmsg = $"**昵称：{GameInfo.GetStrings("zh").Species[species]}**\n" +
-                $"性别：{GameInfo.GenderSymbolUnicode[pk.Gender]}\n" +
-                $"性格:{natureName}\n" +
-                $"特性:{abilityName}\n" +
-                $"等级:{level}\n" +
-                $"大小:{scale}\n" +
-                $"Home追踪:{hometracker}\n" +
-                $"个体:\n" +
-                $"HP :{hp},Atk:{atk},Def:{def},Spa:{spa},Spd:{spd},Spe:{spe}\n " +
-                $"努力:\n" +
-                $"HP :{hp_ev},Atk:{atk_ev},Def:{def_ev},Spa:{spa_ev},Spd:{spd_ev},Spe:{spe_ev}\n" +
-                $"技能\n" +
-                $"{power1}\n" +
-                $"{power2}\n" +
-                $"{power3}\n" +
-                $"{power4}\n" +
-                $"来源版本:{chineseVersion}";
+            pmsg = $"{GameInfo.GetStrings("zh").Species[species]}\n" +// 0
+                $"{GameInfo.GenderSymbolUnicode[pk.Gender]}\n" +// 1
+                $"性格:{natureName}\n" +// 2
+                $"特性:{abilityName}\n" +// 3
+                $"等级:{level}\n" +// 4
+                $"大小:{scale}\n" +// 5
+                $"Home追踪:{hometracker}\n" +// 6
+                $"个体值：{hp}/{atk}/{def}/{spa}/{spd}/{spe}\n" +// 7
+                $"努力值：{hp_ev}/{atk_ev}/{def_ev}/{spa_ev}/{spd_ev}/{spe_ev}\n" +// 8
+                $"{power1}\n" +// 9
+                $"{power2}\n" +// 10
+                $"{power3}\n" +// 11
+                $"{power4}\n" +// 12
+                $"来源版本:{chineseVersion}\n" +// 13
+                $"训练家：{name}({sid}-{tid})\n" +// 14
+                $"语言：{languageZh}\n" +// 15
+                $"{ball}\n" +// 16
+                $"{heldItem}\n";// 17
 
-          //  LogUtil.LogInfo($"cardmsg:{pmsg}", nameof(PokemonTradeHelper<T>));
+
+            //  LogUtil.LogInfo($"cardmsg:{pmsg}", nameof(PokemonTradeHelper<T>));
             return pmsg;
            
         }

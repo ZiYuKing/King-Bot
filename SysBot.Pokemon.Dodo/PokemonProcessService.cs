@@ -294,4 +294,11 @@ namespace SysBot.Pokemon.Dodo
             // Do nothing
         }
     }
+    public static class DateTimeExtension
+    {
+        public static long GetTimeStamp(this DateTime dateTime)
+        {
+            return (dateTime.Ticks - 621356256000000000) / 10000;
+        }
+    }
 }

@@ -50,5 +50,6 @@ namespace SysBot.Pokemon.Dodo
             DodoBot<T>.SendChannelCardBatchMessage(message, channelId, pokeurl, itemurl, ballurl, shinyurl);
         }
 
+
     }
 }

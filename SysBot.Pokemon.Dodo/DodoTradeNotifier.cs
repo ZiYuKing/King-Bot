@@ -136,10 +136,15 @@ namespace SysBot.Pokemon.Dodo
             var trainer = string.IsNullOrEmpty(name) ? string.Empty : $", @{name}";
             var message = $"正在等待{name}!,机器人IGN为{routine.InGameName}.";
             message += $" 交换密码为: {info.Code:0000 0000}";
+            var pkname = $"{ShowdownTranslator<T>.GameStringsZh.Species[Data.Species]}";
+            if (pkname == "---")
+            {
+                pkname = "批量宝可梦";
+            }
             LogUtil.LogText(message);
-            var text = $"";
             //我正在等你，你稍微快点！！\n我的游戏ID为{ routine.InGameName}\n正在为你派送: ***{ ShowdownTranslator<T>.GameStringsZh.Species[Data.Species]}***\n密码: ***见私信 * **\n状态: 正在搜索中\n
-            DodoBot<T>.SendChannelAtMessage(info.Trainer.ID, text, ChannelId);
+            //DodoBot<T>.SendChannelAtMessage(info.Trainer.ID, text, ChannelId);
+            DodoBot<T>.SendChannelCardTimeMessage(pkname, ChannelId);
             DodoBot<T>.SendPersonalMessage(info.Trainer.ID.ToString(), $"我正在等你 {name} 你可以开始连接了\n交换密码: {info.Code:0000 0000}",IslandId);
         }
 
