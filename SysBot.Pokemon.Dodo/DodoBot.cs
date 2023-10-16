@@ -60,7 +60,7 @@ namespace SysBot.Pokemon.Dodo
             EchoUtil.Forwarders.Add(msg => { if (msg.Contains("团")) SendChannelMessage(msg, channelId); });
             EchoUtil.Forwarders.Add(msg => { if (msg.Contains("打")) SendChannelMessage(msg, channelId); });
             if (string.IsNullOrWhiteSpace(channelId)) return;
-            SendChannelMessage("欢迎使用King-交换机器人！", channelId);
+            SendChannelAtVIPMessage("欢迎使用King-交换机器人！", channelId);
             //SendChannelMessageAll("欢迎使用传火机器人！", channelId);
             var Msg = "";
             if (!DodoBot<T>.Info.Hub.Config.Legality.AllowUseFile)
@@ -117,6 +117,19 @@ namespace SysBot.Pokemon.Dodo
                 }
             });
         }
+        public static void SendChannelAtVIPMessage(string message, string channelId)
+        {
+            if (string.IsNullOrEmpty(message)) return;
+            OpenApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyText>
+            {
+                ChannelId = channelId,
+                MessageBody = new MessageBodyText
+                {
+                    Content = $"<@&{173664}><@&{171954}> {message}"
+                }
+            });
+        }
+
 
         public static void SendChannelMessageAll(string message, string channelId)
         {
@@ -213,6 +226,34 @@ namespace SysBot.Pokemon.Dodo
                 currentIndex = 0;
             }
         }
+        public static class PokemonColors
+        {
+            public static string GetColor(string pokemonType)
+            {
+                return pokemonType switch
+                {
+                    "Normal" => "grey",
+                    "Fighting" => "orange",
+                    "Flying" => "indigo",
+                    "Poison" => "purple",
+                    "Ground" => "orange",
+                    "Rock" => "grey",
+                    "Bug" => "green",
+                    "Ghost" => "purple",
+                    "Steel" => "indigo",
+                    "Fire" => "red",
+                    "Water" => "blue",
+                    "Grass" => "green",
+                    "Electric" => "yellow",
+                    "Psychic" => "red",
+                    "Ice" => "indigo",
+                    "Dragon" => "blue",
+                    "Dark" => "black",
+                    "Fairy" => "red",
+                    _ => "default"
+                };
+            }
+        }
 
         public static void SendChannelCardMessage(string message, string channelId, string pokeurl,string itemurl, string ballurl,string teraurl, string teraoriginalurl, string shinyurl, string movetypeurl1, string movetypeurl2, string movetypeurl3, string movetypeurl4)
         {
@@ -234,7 +275,6 @@ namespace SysBot.Pokemon.Dodo
             {
                 Gender = "(无性别)";
             }
-
             OpenApiService.SetChannelMessageSend(new SetChannelMessageSendInput<MessageBodyCard>
             {
                 ChannelId = channelId,
@@ -244,7 +284,7 @@ namespace SysBot.Pokemon.Dodo
                     Card = new MessageModelCard
                     {
                         Type = "card",
-                        Theme = ColorGenerator.RandomColor,
+                        Theme = PokemonColors.GetColor("PokemonType"),
                         //Title = "这是你要的宝可梦：",
                         Components = new List<object>
                         {

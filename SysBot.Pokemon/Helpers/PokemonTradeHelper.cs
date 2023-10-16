@@ -621,8 +621,8 @@ namespace SysBot.Pokemon.Helpers
 
             string tera="";
             string teraoriginal = "";
-            teraurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png"; 
-            teraoriginurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+            teraurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png"; 
+            teraoriginurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
             
             string hometracker = "";
             string scale ="";
@@ -666,7 +666,7 @@ namespace SysBot.Pokemon.Helpers
             {
                 LogUtil.LogInfo($"Ball: {pokeball} not found.", nameof(PokemonTradeHelper<T>));
                 
-               ballurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+               ballurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
             }
             try
             {
@@ -681,13 +681,13 @@ namespace SysBot.Pokemon.Helpers
             }
 
             MoveTypeImg moveTypeImg = new MoveTypeImg();
-            movetypeurl1 = moveTypeImg.MoveTypeToChinese(type1);
-            movetypeurl2 = moveTypeImg.MoveTypeToChinese(type2);
-            movetypeurl3 = moveTypeImg.MoveTypeToChinese(type3);
-            movetypeurl4 = moveTypeImg.MoveTypeToChinese(type4);
+            movetypeurl1 = power1 == "(无)" ? "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png" : moveTypeImg.MoveTypeToChinese(type1);
+            movetypeurl2 = power2 == "(无)" ? "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png" : moveTypeImg.MoveTypeToChinese(type2);
+            movetypeurl3 = power3 == "(无)" ? "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png" : moveTypeImg.MoveTypeToChinese(type3);
+            movetypeurl4 = power4 == "(无)" ? "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png" : moveTypeImg.MoveTypeToChinese(type4);
 
             // pokeurl = PKImgURL(speciesint,pkform,shyint);
-            pokeurl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+            pokeurl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
            
             var key = (Species: speciesInt, Form: pkForm, Shiny: shinyInt);
           //  LogUtil.LogInfo($"KEY:{key}", nameof(PokemonTradeHelper<T>));
@@ -828,7 +828,8 @@ namespace SysBot.Pokemon.Helpers
                 $"训练家：{name}({sid}-{tid})\n" +// 14
                 $"语言：{languageZh}\n" +// 15
                 $"{ball}\n" +// 16
-                $"{heldItem}\n";// 17
+                $"{heldItem}\n" +// 17
+                $"{teraoriginal}\n" ;// 18
 
 
             //  LogUtil.LogInfo($"cardmsg:{pmsg}", nameof(PokemonTradeHelper<T>));

@@ -36,7 +36,7 @@ namespace SysBot.Pokemon
             }
             else
             {
-                string errorUrl = "https://img.imdodo.com/openapitest/upload/cdn/AEA3F842940BD2E6418AE36231F53BB7_1696061304099.png";
+                string errorUrl = "https://img.imdodo.com/openapitest/upload/cdn/4A47A0DB6E60853DEDFCFDF08A5CA249_1695595586219.png";
                 return errorUrl;
             }
         }
