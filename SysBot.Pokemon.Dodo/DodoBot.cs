@@ -60,7 +60,7 @@ namespace SysBot.Pokemon.Dodo
             EchoUtil.Forwarders.Add(msg => { if (msg.Contains("团")) SendChannelMessage(msg, channelId); });
             EchoUtil.Forwarders.Add(msg => { if (msg.Contains("打")) SendChannelMessage(msg, channelId); });
             if (string.IsNullOrWhiteSpace(channelId)) return;
-            SendChannelAtVIPMessage("欢迎使用King-交换机器人！", channelId);
+            SendChannelAtVIPMessage("King-机器人，启动！！", channelId);
             //SendChannelMessageAll("欢迎使用传火机器人！", channelId);
             var Msg = "";
             if (!DodoBot<T>.Info.Hub.Config.Legality.AllowUseFile)
@@ -226,34 +226,6 @@ namespace SysBot.Pokemon.Dodo
                 currentIndex = 0;
             }
         }
-        public static class PokemonColors
-        {
-            public static string GetColor(string pokemonType)
-            {
-                return pokemonType switch
-                {
-                    "Normal" => "grey",
-                    "Fighting" => "orange",
-                    "Flying" => "indigo",
-                    "Poison" => "purple",
-                    "Ground" => "orange",
-                    "Rock" => "grey",
-                    "Bug" => "green",
-                    "Ghost" => "purple",
-                    "Steel" => "indigo",
-                    "Fire" => "red",
-                    "Water" => "blue",
-                    "Grass" => "green",
-                    "Electric" => "yellow",
-                    "Psychic" => "red",
-                    "Ice" => "indigo",
-                    "Dragon" => "blue",
-                    "Dark" => "black",
-                    "Fairy" => "red",
-                    _ => "default"
-                };
-            }
-        }
 
         public static void SendChannelCardMessage(string message, string channelId, string pokeurl,string itemurl, string ballurl,string teraurl, string teraoriginalurl, string shinyurl, string movetypeurl1, string movetypeurl2, string movetypeurl3, string movetypeurl4)
         {
@@ -270,6 +242,29 @@ namespace SysBot.Pokemon.Dodo
             for (int i = 0; i < part.Length; i++)
                 part[i] = part[i].Replace(":", "\n");
 
+            string color = pmsgLines[18] switch
+            {
+                "Normal" => "grey",
+                "Fighting" => "orange",
+                "Flying" => "indigo",
+                "Poison" => "purple",
+                "Ground" => "orange",
+                "Rock" => "grey",
+                "Bug" => "green",
+                "Ghost" => "purple",
+                "Steel" => "indigo",
+                "Fire" => "red",
+                "Water" => "blue",
+                "Grass" => "green",
+                "Electric" => "yellow",
+                "Psychic" => "red",
+                "Ice" => "indigo",
+                "Dragon" => "blue",
+                "Dark" => "black",
+                "Fairy" => "red",
+                _ => "default"
+            };
+
             var Gender = $"{pmsgLines[1]}";
             if (Gender == "-")
             {
@@ -284,7 +279,7 @@ namespace SysBot.Pokemon.Dodo
                     Card = new MessageModelCard
                     {
                         Type = "card",
-                        Theme = PokemonColors.GetColor("PokemonType"),
+                        Theme = color,
                         //Title = "这是你要的宝可梦：",
                         Components = new List<object>
                         {
